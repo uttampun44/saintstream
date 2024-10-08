@@ -1,18 +1,19 @@
 import React from "react";
 
-type inputType = "text" | "password" | "number";
+type inputType = "text" | "password" | "number" | "checkbox";
 interface inputProps{
     type: inputType,
     value?: string,
     placeholder?:string,
-    name:string,
+    name?:string,
     className?:string
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const InputType: React.FC<inputProps> = ({type, value, placeholder, name, className}) =>{
+const InputType: React.FC<inputProps> = ({type, value, placeholder, name, className, onChange}) =>{
  return(
     <>
-        <input name={name} type={type} value={value} placeholder={placeholder} className={className} />
+        <input name={name} type={type} value={value} placeholder={placeholder} className={className} onChange={onChange} />
     </>
  )
 }
