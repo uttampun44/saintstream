@@ -16,12 +16,14 @@ export default function Login() {
     register,
     setError,
     clearErrors,
+    watch,
     formState: { errors },
   } = useForm<inputs>({});
 
   const onSubmit: SubmitHandler<inputs> = (data) => {
     data;
   };
+  
   return (
     <section
       className={cn("")}
@@ -59,8 +61,9 @@ export default function Login() {
                 <InputType
                   type="text"
                   placeholder="Email"
-                  className="p-2 rounded-md"
+                  className={cn("p-2 rounded-md bg-gray-800 text-slate-600")}
                   {...register("email", { required: true })}
+                  
                 />
 
                 <div className={cn("error text-red-700 font-medium text-base mt-1")}>
@@ -72,8 +75,9 @@ export default function Login() {
                 <InputType
                   type="password"
                   placeholder="Password"
-                  className={cn("p-2 rounded-md")}
+                  className={cn("p-2 rounded-md bg-gray-800 text-slate-600")}
                   {...register("password", { required: true })}
+                  
                 />
 
                 <div className={cn("error text-red-700 font-medium text-base mt-1")}>
