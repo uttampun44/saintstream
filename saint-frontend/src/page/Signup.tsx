@@ -3,8 +3,9 @@ import Button from "../components/Button";
 import { cn } from "../utils/cn";
 import InputType from "../components/Input";
 import { SubmitHandler, useForm } from "react-hook-form";
-import BackgroundImage from "../../src/images/Image.jpg";
-import Logo from "../../src/images/Logo.png";
+import BackgroundImage from "../../public/images/Image.jpg";
+import Logo from "../../public/images/Logo.png";
+import axios from "axios";
 
 type inputs = {
   username: string;
@@ -21,7 +22,18 @@ export default function Signup() {
     register,
   } = useForm<inputs>();
 
-  const onSubmit: SubmitHandler<inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<inputs> = (data) => {
+   try {
+    if(data.password !== data.confirm_password){
+      alert("Password not matching")
+    }
+    const response = axios.post('http://127.0.0.1:8000/api/register', data,)
+
+    console.log(response)
+   } catch (error:any) {
+     throw new error
+   }
+  };
 
   return (
     <section
@@ -34,7 +46,7 @@ export default function Signup() {
         height: "100vh",
       }}
     >
-      <div className={cn("fixed w-full h-full inset-0 bg-black/80 z-30")}></div>
+      <div className={cn("fixed w-full h-full inset-0 bg-black/90 z-30")}></div>
       <div
         className={cn(
           "loginContainer fixed bg-black/90 top-1/2 left-1/2 z-50 border-gray-800 rounded-lg border-2 -translate-x-1/2 -translate-y-1/2 max-w-lg min-w-md w-full"
@@ -60,8 +72,8 @@ export default function Signup() {
                 <InputType
                   type="text"
                   placeholder="Username"
-                  className={cn("p-2 rounded-md bg-gray-800 text-slate-600")}
-                  {...register("username")}
+                  className={cn("p-2 rounded-md bg-gray-800 text-white")}
+                  {...register("username", {required: true})}
                 />
 
                 <div className={cn("error text-red-700 text-base font-medium")}>
@@ -74,7 +86,7 @@ export default function Signup() {
                 <InputType
                   type="text"
                   placeholder="Email"
-                  className={cn("p-2 rounded-md bg-gray-800 text-slate-600")}
+                  className={cn("p-2 rounded-md bg-gray-800 text-white")}
                   {...register("email", { required: true })}
                 />
                 <div className="error text-red-700 text-base font-medium">
@@ -87,9 +99,9 @@ export default function Signup() {
 
                 <InputType
                   type="password"
-                  {...register("password")}
+                  {...register("password", {required: true})}
                   placeholder="Password"
-                  className={cn("p-2 rounded-md bg-gray-800 text-slate-600")}
+                  className={cn("p-2 rounded-md bg-gray-800 text-white")}
                 />
 
                 <div className={cn("error text-red-700 text-base font-medium")}>
@@ -101,9 +113,9 @@ export default function Signup() {
 
                 <InputType
                   type="password"
-                  {...register("confirm_password")}
+                  {...register("confirm_password", {required: true})}
                   placeholder="Confirm Password"
-                  className={cn("p-2 rounded-md bg-gray-800 text-slate-600")}
+                  className={cn("p-2 rounded-md bg-gray-800 text-white")}
                 />
                 <div className={cn("error text-red-700 text-base font-medium")}>
                   {errors.confirm_password && <>This field is required</>}
@@ -116,11 +128,11 @@ export default function Signup() {
                   className={cn("rounded-full mr-1")}
                 />
                 <label htmlFor="agree">
-                  I agree to your
+                  I agree to your &nbsp;
                   <span className={cn("text-lg font-bold text-white")}>
-                    Privacy Policy
+                    Privacy Policy &nbsp;
                   </span>
-                  and
+                  and &nbsp;
                   <span className={cn("text-lg font-bold text-white")}>
                     term and condition
                   </span>

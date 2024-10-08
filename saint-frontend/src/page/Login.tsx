@@ -1,7 +1,7 @@
 import { cn } from "../utils/cn";
-import BackgroundImage from "../../src/images/Image.jpg";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import Logo from "../../src/images/Logo.png";
+import BackgroundImage from "../../public/images/Image.jpg";
+import { SubmitHandler, useForm } from "react-hook-form";
+import Logo from "../../public/images/Logo.png";
 import InputType from "../components/Input";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
@@ -35,10 +35,10 @@ export default function Login() {
         height: "100vh",
       }}
     >
-      <div className={cn("fixed w-full h-full inset-0 bg-black/80 z-30")}></div>
+      <div className={cn("fixed w-full h-full inset-0 bg-black/90 z-30")}></div>
       <div
         className={cn(
-          "loginContainer fixed bg-black/90 top-1/2 left-1/2 z-50 border-gray-800 rounded-lg border-2 -translate-x-1/2 -translate-y-1/2 max-w-lg min-w-md w-full"
+          "loginContainer fixed bg-black/90 top-1/2 left-1/2 z-50 border-gray-800 rounded-lg border-2 -translate-x-1/2 -translate-y-1/2 max-w-lg min-w-md max-h-[519px] min-h-max w-full"
         )}
       >
         <div className={cn("loginForm grid p-5")}>
@@ -61,7 +61,7 @@ export default function Login() {
                 <InputType
                   type="text"
                   placeholder="Email"
-                  className={cn("p-2 rounded-md bg-gray-800 text-slate-600")}
+                  className={cn("p-2 rounded-md bg-gray-800 text-white")}
                   {...register("email", { required: true })}
                   
                 />
@@ -75,7 +75,7 @@ export default function Login() {
                 <InputType
                   type="password"
                   placeholder="Password"
-                  className={cn("p-2 rounded-md bg-gray-800 text-slate-600")}
+                  className={cn("p-2 rounded-md bg-gray-800 text-white")}
                   {...register("password", { required: true })}
                   
                 />
