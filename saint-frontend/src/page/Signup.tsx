@@ -8,10 +8,10 @@ import Logo from "../../public/images/Logo.png";
 import axios from "axios";
 
 type inputs = {
-  username: string;
+  name: string;
   email: string;
   password: string;
-  confirm_password: string;
+  password_confirmation: string;
 };
 export default function Signup() {
   const {
@@ -24,10 +24,10 @@ export default function Signup() {
 
   const onSubmit: SubmitHandler<inputs> = (data) => {
    try {
-    if(data.password !== data.confirm_password){
+    if(data.password !== data.password_confirmation){
       alert("Password not matching")
     }
-    const response = axios.post('http://127.0.0.1:8000/api/register', data,)
+    const response = axios.post('/api/register', data,)
 
     console.log(response)
    } catch (error:any) {
@@ -37,7 +37,7 @@ export default function Signup() {
 
   return (
     <section
-      className={cn("")}
+      className={cn("signup")}
       style={{
         backgroundImage: `url(${BackgroundImage})`,
         backgroundRepeat: "no-repeat",
@@ -73,11 +73,11 @@ export default function Signup() {
                   type="text"
                   placeholder="Username"
                   className={cn("p-2 rounded-md bg-gray-800 text-white")}
-                  {...register("username", {required: true})}
+                  {...register("name", {required: true})}
                 />
 
                 <div className={cn("error text-red-700 text-base font-medium")}>
-                  {errors.username && <>This field is required</>}
+                  {errors.name && <>This field is required</>}
                 </div>
               </div>
               <div className={cn("email grid gap-y-2")}>
@@ -109,16 +109,16 @@ export default function Signup() {
                 </div>
               </div>
               <div className={cn("confirm-password grid gap-y-2 mb-5")}>
-                <label htmlFor="password">Confirm Password</label>
+                <label htmlFor="confirm_password">Confirm Password</label>
 
                 <InputType
                   type="password"
-                  {...register("confirm_password", {required: true})}
+                  {...register("password_confirmation", {required: true})}
                   placeholder="Confirm Password"
                   className={cn("p-2 rounded-md bg-gray-800 text-white")}
                 />
                 <div className={cn("error text-red-700 text-base font-medium")}>
-                  {errors.confirm_password && <>This field is required</>}
+                  {errors.password_confirmation && <>This field is required</>}
                 </div>
               </div>
 
