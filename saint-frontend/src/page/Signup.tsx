@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import BackgroundImage from "../../public/images/Image.jpg";
 import Logo from "../../public/images/Logo.png";
 import axios from "axios";
+import { toast } from "sonner";
 
 type inputs = {
   name: string;
@@ -16,8 +17,6 @@ type inputs = {
 export default function Signup() {
   const {
     handleSubmit,
-    setError,
-    clearErrors,
     formState: { errors },
     register,
   } = useForm<inputs>();
@@ -27,10 +26,11 @@ export default function Signup() {
     if(data.password !== data.password_confirmation){
       alert("Password not matching")
     }
-    const response = axios.post('/api/register', data,)
+     axios.post('/api/register', data,)
 
-    console.log(response)
+     toast.success('Successfully register', {position: "top-right"})
    } catch (error:any) {
+     toast.error('User not registered')
      throw new error
    }
   };
@@ -123,10 +123,7 @@ export default function Signup() {
               </div>
 
               <div className={cn("agree flex my-3 text-gray-500")}>
-                <InputType
-                  type="checkbox"
-                  className={cn("rounded-full mr-1")}
-                />
+             
                 <label htmlFor="agree">
                   I agree to your &nbsp;
                   <span className={cn("text-lg font-bold text-white")}>

@@ -3,30 +3,56 @@ import BackgroundImage from "../../public/images/Image.jpg";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Logo from "../../public/images/Logo.png";
 import InputType from "../components/Input";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import Button from "../components/Button";
+import axios from "axios";
+import { toast } from "sonner";
+import { useContext } from "react";
+import { Context } from "../context/ContextProvider";
 
 type inputs = {
   email: string;
   password: string;
 };
 export default function Login() {
+
+  const context = useContext(Context);
+
+  const setUser = context?.setUser
+
   const {
     handleSubmit,
     register,
-    setError,
-    clearErrors,
-    watch,
     formState: { errors },
   } = useForm<inputs>({});
 
   const onSubmit: SubmitHandler<inputs> = (data) => {
-    data;
+
+    try {
+     const response =  axios.post("/api/login", data, {
+        headers:{
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        }
+      })
+
+      console.log(response);
+
+     
+        toast.success("Successfully login")
+     
+        return redirect("/home");
+  
+   
+    } catch (error:any) {
+      toast.error("Not login")
+      throw new error
+    }
   };
   
   return (
     <section
-      className={cn("")}
+      className={cn("login_section")}
       style={{
         backgroundImage: `url(${BackgroundImage})`,
         backgroundRepeat: "no-repeat",
