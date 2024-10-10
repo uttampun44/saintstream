@@ -3,7 +3,7 @@ import BackgroundImage from "../../public/images/Image.jpg";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Logo from "../../public/images/Logo.png";
 import InputType from "../components/Input";
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import axios from "axios";
 import { toast } from "sonner";
@@ -18,6 +18,7 @@ type inputs = {
 export default function Login() {
 
   const context = useContext(Context);
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -35,15 +36,13 @@ export default function Login() {
         }
       })
 
-      console.log(response);
-
      if(response.status === 200){
     
       localStorage.setItem("token",response.data.token);
       context?.setToken(response.data.token)
       toast.success("Successfully login")
      
-       return redirect("/home")
+       navigate("/home")
      }
    
     } catch (error:any) {
