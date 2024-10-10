@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { useContext } from "react";
 import { Context } from "../context/ContextProvider";
 
+
 type inputs = {
   email: string;
   password: string;
@@ -18,18 +19,16 @@ export default function Login() {
 
   const context = useContext(Context);
 
-  const setUser = context?.setUser
-
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<inputs>({});
 
-  const onSubmit: SubmitHandler<inputs> = (data) => {
-
+  const onSubmit: SubmitHandler<inputs> = async(data, event) => {
+    event?.preventDefault()
     try {
-     const response =  axios.post("/api/login", data, {
+     const response =  await axios.post("/api/login", data, {
         headers:{
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -38,11 +37,14 @@ export default function Login() {
 
       console.log(response);
 
+     if(response.status === 200){
+    
+      localStorage.setItem("token",response.data.token);
+      context?.setToken(response.data.token)
+      toast.success("Successfully login")
      
-        toast.success("Successfully login")
-     
-        return redirect("/home");
-  
+       return redirect("/home")
+     }
    
     } catch (error:any) {
       toast.error("Not login")

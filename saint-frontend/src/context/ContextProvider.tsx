@@ -5,8 +5,8 @@ type ContextProviderProps ={
 }
 interface saintStreamValue{
 user: null,
-token: null,
-setToken: (token:null) => void,
+token: string | null,
+setToken: (token:string) => void,
 setUser: (user: null) => void,
 }
 
@@ -17,10 +17,7 @@ export const Context = createContext<saintStreamValue | null>(null);
 export default function ContextProvider({children}: ContextProviderProps){
    
    const [user, setUser] = useState<null>(null)
-   const [token, setToken] = useState<null>(null)
-
-   if(!user)  return
-
+   const [token, setToken] = useState<string | null>(null)
 
    return(
       <Context.Provider value={{user, token, setToken, setUser}}>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import Button from "../components/Button";
 import { cn } from "../utils/cn";
 import InputType from "../components/Input";
@@ -21,14 +21,19 @@ export default function Signup() {
     register,
   } = useForm<inputs>();
 
-  const onSubmit: SubmitHandler<inputs> = (data) => {
+  const onSubmit: SubmitHandler<inputs> = async(data, event) => {
+    event?.preventDefault()
    try {
     if(data.password !== data.password_confirmation){
       alert("Password not matching")
     }
-     axios.post('/api/register', data,)
+    const response =  await axios.post('/api/register', data,)
 
-     toast.success('Successfully register', {position: "top-right"})
+  if(response.status === 201){
+    toast.success('Successfully register', {position: "top-right"})
+    return redirect("/")
+  }
+     
    } catch (error:any) {
      toast.error('User not registered')
      throw new error
