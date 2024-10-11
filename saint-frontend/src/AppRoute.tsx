@@ -8,12 +8,15 @@ import { Context } from "./context/ContextProvider";
 export default function AppRoute(){
 
    const bearerToken = useContext(Context);
+   const token = bearerToken?.token
+
 
     return(
        <Routes>
           <Route path="/sign-up" element={<Signup />} />
           <Route path="/" element={<Login />} />
-         <Route path="/home" element={bearerToken?.token ? <Home /> : <Navigate to="/" />} />
+          {/* <Route path="/home" element={bearerToken?.token ? <Home /> : <Navigate to="/" />} /> */}
+          <Route path="/home" element={<Home />} />
        </Routes>
     )
 }
