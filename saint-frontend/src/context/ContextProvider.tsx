@@ -6,19 +6,7 @@ import {useQuery } from "react-query";
 type ContextProviderProps = {
   children: ReactNode;
 };
-type frontHomePage = {
-  id: number;
-  backdrop_path: string;
-  original_title: string;
-  poster_path:string
-  runtime: number;
-  genres: {
-    id: number;
-    name: string;
-  };
-  popularity: number;
-  vote_average: number;
-};
+
 type movieGenre = {
   id: number;
   name: string;
@@ -44,12 +32,10 @@ interface saintStreamValue {
   token: string | null;
   movie: any;
   genre: movieGenre[];
-  front: frontHomePage[];
   setToken: (token: string) => void;
   setUser: (user: null) => void;
   setMovie: (movie: movie[]) => void;
   setGenre: (genre: movieGenre[]) => void;
-  setFront: (front: frontHomePage[]) => void;
 }
 
 export const Context = createContext<saintStreamValue | null>(null);
@@ -59,30 +45,7 @@ export default function ContextProvider({ children }: ContextProviderProps) {
   const [token, setToken] = useState<string | null>(null);
   const [movie, setMovie] = useState<movie[]>([]);
   const [genre, setGenre] = useState<movieGenre[]>([]);
-  const [front, setFront] = useState<frontHomePage[]>([]);
-
-  
-
-  const fetchFrontPage = async () => {
-    try {
-      const response = await axios.get(
-        "https://api.themoviedb.org/3/movie/550?api_key=687a565932b25d0009786fa2a61e82f8",
-        {
-          params: {
-            api_key: "687a565932b25d0009786fa2a61e82f8",
-            language: "en-US",
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        return response.data
-      }
-    } catch (error) {
-      throw new Error();
-    }
-  };
-
+ 
   
   const fetchGenre = async () => {
     try {
@@ -95,6 +58,7 @@ export default function ContextProvider({ children }: ContextProviderProps) {
           },
         }
       );
+
       if (response.status === 200) return response.data;
     } catch (error) {
       throw new Error();
@@ -121,17 +85,17 @@ export default function ContextProvider({ children }: ContextProviderProps) {
     }
   };
   
-  const {isLoading: frontLoading, error: frontError, data: frontData} = useQuery('frontData',fetchFrontPage)
+
   const {isLoading: genreLoading, error: genreError, data: genreData} = useQuery('genreData',fetchGenre)
   const {isLoading: movieLoading, error: movieError, data: movieData} = useQuery('movieData',fecthMovie)
 
 
   useEffect(() => {
-    if(frontData) setFront(frontData);
+  
     if(genreData) setGenre(genreData);
-    if(movieData) setGenre(movieData)
+    if(movieData) setMovie(movieData)
 
-  }, [frontData, genreData, movieData]);
+  }, [genreData, movieData]);
 
   useEffect(() => {
     const userToken =  localStorage.getItem("token")
@@ -142,8 +106,8 @@ export default function ContextProvider({ children }: ContextProviderProps) {
     }
 
   }, [])
-  const loading = frontLoading || genreLoading || movieLoading
-   const error = frontError || genreError || movieError
+  const loading =  genreLoading || movieLoading
+   const error =  genreError || movieError
   return (
     <Context.Provider
       value={{
@@ -151,14 +115,14 @@ export default function ContextProvider({ children }: ContextProviderProps) {
         token,
         movie,
         genre,
-        front,
+      
         loading,
         error,
         setToken,
         setUser,
         setMovie,
         setGenre,
-        setFront,
+       
       }}
     >
       {children}
