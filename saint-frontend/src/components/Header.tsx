@@ -3,7 +3,7 @@ import Button from "./Button";
 
 export default function Header(){
     return(
-       <div className={cn("logoContianer")}>
+       <div className={cn("logoContianer bg-black/90")}>
          <div className={cn("header max-w-[1440px] mx-auto  p-5 flex justify-between items-center")}>
             <div className={cn("logo gap-x-5 flex items-center ")}>
                <img src="/public/images/Logo.png" />

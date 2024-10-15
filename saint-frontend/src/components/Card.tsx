@@ -2,7 +2,7 @@ import React, { ReactNode } from "react"
 import { cn } from "../utils/cn"
 
 interface cardProps {
-  className:string,
+  className?:string,
   children:ReactNode
 }
 const Card:React.FC<cardProps> = ({className, children}) =>{
