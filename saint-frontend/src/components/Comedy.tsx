@@ -1,51 +1,40 @@
 import { useContext } from "react";
 import { Context } from "../context/ContextProvider";
 import { toast } from "sonner";
-import Layout from "../components/Layout";
 import { cn } from "../utils/cn";
-import Card from "../components/Card";
-import Comedy from "../components/Comedy";
-import ActionMovies from "../components/ActionMovies";
-import ScienceFiction from "../components/ScienceFiction";
 
-export default function Home() {
+export default function Comedy() {
   const movieData = useContext(Context);
   const loading = movieData?.loading;
   const error = movieData?.error;
   const movies = movieData?.movie;
-  const genres = movieData?.genre;
 
-  if (loading) return toast.loading("Loading");
-  if (error) return toast.error("Error in loading");
+  if (loading) return toast.loading("Loading...");
+  if (error) return toast.error("Error loading comedy movies.");
 
-  console.log(genres);
+  const comedyMovies = movies.filter((movie: any) =>
+    movie.genre_ids.includes(35)
+  );
 
-  const getGenreNames = (genreIds: number[]) =>
-    genreIds
-      .map((id) => genres?.find((genre: any) => genre.id === id)?.name)
-      .filter(Boolean)
-      .join(", ");
-
-  const handleClickMovie = (id: number) => {
-    console.log(id);
-  };
 
   return (
-    <Layout>
-      {movies.splice(0, 1).map((movie: any, index: number) => (
+    <>
+      {movies.length > 0 && (
         <section
-          key={index}
+          key={movies[0].id}
           style={{
-            backgroundImage: `url(http://image.tmdb.org/t/p/original/${movie.poster_path})`,
+            backgroundImage: `url(http://image.tmdb.org/t/p/original/${movies[0].poster_path})`,
             backgroundRepeat: "no-repeat",
-            backgroundSize: "100%",
+            backgroundSize: "cover",
             backgroundPosition: "center",
             height: "100vh",
           }}
+          className={cn("relative")}
         >
           <div
             className={cn("absolute w-full h-full inset-0 bg-black/90 z-30")}
           ></div>
+
           <div
             className={cn(
               "homeContainer relative z-50 max-w-[1440px] mx-auto p-5"
@@ -54,68 +43,64 @@ export default function Home() {
             <div className="grid h-[700px] items-end justify-start max-w-2xl w-full">
               <div className="title text-slate-300">
                 <h2 className={cn("text-white text-4xl font-bold my-1")}>
-                  {movie.original_title}
+                  {movies[0].original_title}
                 </h2>
                 <p className={cn("font-bold")}>
                   Ratings:
                   <span className={cn("text-yellow-600 text-lg font-bold")}>
-                    &nbsp; {movie.vote_average}
+                    &nbsp; {movies[0].vote_average}
                   </span>
                 </p>
                 <p className={cn("font-bold")}>
-                  Release Date: <span>{movie.release_date}</span>
+                  Release Date: <span>{movies[0].release_date}</span>
                 </p>
 
                 <p className={cn("font-bold")}>
-                  Genres: <span>{getGenreNames(movie.genre_ids)}</span>
+                  Genres: <span>Comedy, Horror</span>
                 </p>
               </div>
             </div>
           </div>
         </section>
-      ))}
+      )}
 
       <section className={cn("bg-black py-24")}>
         <div
           className={cn("cardContainerOne max-w-[1440px] text-white mx-auto")}
         >
-          <h2 className={cn("text-3xl font-bold  my-4")}>Movie List</h2>
-          <Card className={cn("gridCardOne grid gap-8 grid-cols-5")}>
-            {movies.slice(0, 15).map((movieCard: any, index: number) => (
+          <h2 className={cn("text-3xl font-bold my-4")}>Comedy Movies</h2>
+          <div className={cn("gridCardOne grid gap-8 grid-cols-5")}>
+            {comedyMovies.map((movie: any, index: number) => (
               <div
                 className={cn("img relative z-50 cursor-pointer rounded-md")}
                 key={index}
-                onClick={() => handleClickMovie(movieCard.id)}
               >
                 <img
-                  src={`http://image.tmdb.org/t/p/original/${movieCard.poster_path}`}
+                  src={`http://image.tmdb.org/t/p/original/${movie.poster_path}`}
                   className={cn("h-full w-full")}
+                  alt={movie.title}
                 />
                 <div
                   className={cn(
                     "info absolute bg-black/90 h-max w-full -bottom-1 p-5 z-10"
                   )}
                 >
-                  <strong>{movieCard.title}</strong>
+                  <strong>{movie.title}</strong>
                   <p className={cn("font-bold")}>
                     Ratings:
                     <span className={cn("text-yellow-600 text-lg font-bold")}>
-                      &nbsp; {Math.round(movieCard.vote_average)}
+                      &nbsp; {Math.round(movie.vote_average)}
                     </span>
                   </p>
                   <p className={cn("font-bold")}>
-                    Genres: <span>{getGenreNames(movieCard.genre_ids)}</span>
+                    Release Date: <span>{movie.release_date}</span>
                   </p>
                 </div>
               </div>
             ))}
-          </Card>
+          </div>
         </div>
       </section>
-
-      <Comedy />
-      <ActionMovies />
-      <ScienceFiction />
-    </Layout>
+    </>
   );
 }

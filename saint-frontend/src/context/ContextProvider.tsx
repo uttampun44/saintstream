@@ -59,7 +59,7 @@ export default function ContextProvider({ children }: ContextProviderProps) {
         }
       );
 
-      if (response.status === 200) return response.data;
+      if (response.status === 200) return response.data.genres;
     } catch (error) {
       throw new Error();
     }

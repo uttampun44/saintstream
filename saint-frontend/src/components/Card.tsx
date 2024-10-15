@@ -7,7 +7,7 @@ interface cardProps {
 }
 const Card:React.FC<cardProps> = ({className, children}) =>{
     return(
-        <div className={cn("card max-w-96 w-max", className)}>
+        <div className={cn(className)}>
             {children}
         </div>
     )
