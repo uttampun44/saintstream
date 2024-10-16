@@ -1,7 +1,7 @@
 import { Link, redirect } from "react-router-dom";
-import Button from "../components/Button";
-import { cn } from "../utils/cn";
-import InputType from "../components/Input";
+import Button from "@/components/Button";
+import { cn } from "@/utils/cn";
+import InputType from "@/components/Input";
 import { SubmitHandler, useForm } from "react-hook-form";
 import BackgroundImage from "../../public/images/Image.jpg";
 import Logo from "../../public/images/Logo.png";

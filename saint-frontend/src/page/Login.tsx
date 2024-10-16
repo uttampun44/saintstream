@@ -1,14 +1,14 @@
-import { cn } from "../utils/cn";
+import { cn } from "@/utils/cn";
 import BackgroundImage from "../../public/images/Image.jpg";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Logo from "../../public/images/Logo.png";
-import InputType from "../components/Input";
+import Logo from "/public/images/Logo.png";
+import InputType from "@/components/Input";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../components/Button";
+import Button from "@/components/Button";
 import axios from "axios";
 import { toast } from "sonner";
 import { useContext } from "react";
-import { Context } from "../context/ContextProvider";
+import { Context } from "@/context/ContextProvider";
 
 
 type inputs = {
@@ -112,7 +112,7 @@ export default function Login() {
                 </div>
               </div>
               <div className={cn("forgotPassword text-center text-white font-bold text-lg my-4")}>
-                <Link to="#">Forgot Password</Link>
+                <Link to="reset-password">Forgot Password</Link>
               </div>
 
               <div className={cn("submitButton")}>

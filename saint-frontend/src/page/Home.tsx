@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import { Context } from "../context/ContextProvider";
+import { Context } from "@/context/ContextProvider";
 import { toast } from "sonner";
-import Layout from "../components/Layout";
-import { cn } from "../utils/cn";
-import Card from "../components/Card";
-import Comedy from "../components/Comedy";
-import ActionMovies from "../components/ActionMovies";
-import ScienceFiction from "../components/ScienceFiction";
+import Layout from "@/components/Layout";
+import { cn } from "@/utils/cn";
+import Card from "@/components/Card";
+import Comedy from "@/components/Comedy";
+import ActionMovies from "@/components/ActionMovies";
+import ScienceFiction from "@/components/ScienceFiction";
 
 export default function Home() {
   const movieData = useContext(Context);
