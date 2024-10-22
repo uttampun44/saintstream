@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -42,15 +44,12 @@ class AuthController extends Controller
         }
     }
 
-    public function login(Request $request): JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
 
         try {
           
-            $credentials = $request->validate([
-                'email' => 'required',
-                'password' => 'required'
-            ]);
+            $credentials = $request->safe()->only(['email', 'password']);
 
             if (Auth::attempt($credentials)) {
                 $user = Auth::user();
@@ -60,6 +59,7 @@ class AuthController extends Controller
                     return response()->json([
                         'status' => true,
                         'token' => $user->createToken('login_token')->plainTextToken,
+                        'user' => $user,
                         'token_type' => 'bearer',
                         'message' => 'Successfull Login'
                     ], 200);
@@ -83,7 +83,22 @@ class AuthController extends Controller
 
     public function logout(Request $request): JsonResponse
     {
-
+        
         return response()->json([]);
+    }
+
+    public function resetPassword(LoginRequest $request)
+    {
+
+        
+        $status = Password::sendResetLink(
+            
+            $request->safe()->only('email')
+        );
+
+        return $status === Password::RESET_LINK_SENT
+        ? back()->with(['status' => __($status)])
+        : back()->withErrors(['email' => __($status)]);
+
     }
 }

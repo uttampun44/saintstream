@@ -1,4 +1,4 @@
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@/components/Button";
 import { cn } from "@/utils/cn";
 import InputType from "@/components/Input";
@@ -21,23 +21,25 @@ export default function Signup() {
     register,
   } = useForm<inputs>();
 
-  const onSubmit: SubmitHandler<inputs> = async(data, event) => {
-    event?.preventDefault()
-   try {
-    if(data.password !== data.password_confirmation){
-      alert("Password not matching")
-    }
-    const response =  await axios.post('/api/register', data,)
+  const navigate = useNavigate();
 
-  if(response.status === 201){
-    toast.success('Successfully register', {position: "top-right"})
-    return redirect("/")
-  }
-     
-   } catch (error:any) {
-     toast.error('User not registered')
-     throw new error
-   }
+  const onSubmit: SubmitHandler<inputs> = async (data, event) => {
+    event?.preventDefault()
+    try {
+      if (data.password !== data.password_confirmation) {
+        alert("Password not matching")
+      }
+      const response = await axios.post('/api/register', data,)
+
+      if (response.status === 201) {
+        toast.success('Successfully register')
+        navigate("/")
+      }
+
+    } catch (error: any) {
+      toast.error('User not registered')
+      throw new error
+    }
   };
 
   return (
@@ -78,7 +80,7 @@ export default function Signup() {
                   type="text"
                   placeholder="Username"
                   className={cn("p-2 rounded-md bg-gray-800 text-white")}
-                  {...register("name", {required: true})}
+                  {...register("name", { required: true })}
                 />
 
                 <div className={cn("error text-red-700 text-base font-medium")}>
@@ -104,7 +106,7 @@ export default function Signup() {
 
                 <InputType
                   type="password"
-                  {...register("password", {required: true})}
+                  {...register("password", { required: true })}
                   placeholder="Password"
                   className={cn("p-2 rounded-md bg-gray-800 text-white")}
                 />
@@ -118,7 +120,7 @@ export default function Signup() {
 
                 <InputType
                   type="password"
-                  {...register("password_confirmation", {required: true})}
+                  {...register("password_confirmation", { required: true })}
                   placeholder="Confirm Password"
                   className={cn("p-2 rounded-md bg-gray-800 text-white")}
                 />
@@ -128,7 +130,7 @@ export default function Signup() {
               </div>
 
               <div className={cn("agree flex my-3 text-gray-500")}>
-             
+
                 <label htmlFor="agree">
                   I agree to your &nbsp;
                   <span className={cn("text-lg font-bold text-white")}>

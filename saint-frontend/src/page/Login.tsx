@@ -75,9 +75,7 @@ export default function Login() {
               <span className={cn("font-bold text-4xl ")}>Saint Stream</span>
               <br></br>
             </div>
-            <div className={cn("title mt-3")}>
-              <h6>Register to enjoy the feature</h6>
-            </div>
+           
           </div>
 
           <div className={cn("formbox my-3")}>
