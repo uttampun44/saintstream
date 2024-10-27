@@ -48,7 +48,7 @@ class AuthController extends Controller
     {
 
         try {
-          
+
             $credentials = $request->safe()->only(['email', 'password']);
 
             if (Auth::attempt($credentials)) {
@@ -99,15 +99,15 @@ class AuthController extends Controller
            'message' => 'successfully logout'
         ]);
 
-       
+
     }
 
     public function forgetPassword(LoginRequest $request)
     {
 
-        
+
         $status = Password::sendResetLink(
-            
+
             $request->safe()->only('email')
         );
 
@@ -129,13 +129,13 @@ class AuthController extends Controller
                   $request->only('email', 'password', 'confirm_password', 'token'),
                   function($user, $password){
                     $user->forceFill([
-                        'password' => bcrypt($password),
+                        'password' => Hash::make($password),
                     ])->save();
                   }
                 );
 
               return $status === Password::PASSWORD_RESET
-              ? response()->json(['status' => __($status)]) 
-              : response()->json(['password' => __($status)]); 
+              ? response()->json(['status' => __($status)])
+              : response()->json(['password' => __($status)]);
     }
 }

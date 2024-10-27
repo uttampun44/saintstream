@@ -9,6 +9,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useContext } from "react";
 import { Context } from "@/context/ContextProvider";
+import Overlay from "@/components/Overlay";
 
 
 type inputs = {
@@ -26,31 +27,31 @@ export default function Login() {
     formState: { errors },
   } = useForm<inputs>({});
 
-  const onSubmit: SubmitHandler<inputs> = async(data, event) => {
+  const onSubmit: SubmitHandler<inputs> = async (data, event) => {
     event?.preventDefault()
     try {
-     const response =  await axios.post("/api/login", data, {
-        headers:{
+      const response = await axios.post("/api/login", data, {
+        headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         }
       })
 
-     if(response.status === 200){
-    
-      localStorage.setItem("token",response.data.token);
-      context?.setToken(response.data.token)
-      toast.success("Successfully login")
-     
-       navigate("/home")
-     }
-   
-    } catch (error:any) {
+      if (response.status === 200) {
+
+        localStorage.setItem("token", response.data.token);
+        context?.setToken(response.data.token)
+        toast.success("Successfully login")
+
+        navigate("/home")
+      }
+
+    } catch (error: any) {
       toast.error("Not login")
       throw new error
     }
   };
-  
+
   return (
     <section
       className={cn("login_section")}
@@ -62,7 +63,7 @@ export default function Login() {
         height: "100vh",
       }}
     >
-      <div className={cn("fixed w-full h-full inset-0 bg-black/90 z-30")}></div>
+      <Overlay />
       <div
         className={cn(
           "loginContainer fixed bg-black/90 top-1/2 left-1/2 z-50 border-gray-800 rounded-lg border-2 -translate-x-1/2 -translate-y-1/2 max-w-lg min-w-md max-h-[519px] min-h-max w-full"
@@ -75,7 +76,7 @@ export default function Login() {
               <span className={cn("font-bold text-4xl ")}>Saint Stream</span>
               <br></br>
             </div>
-           
+
           </div>
 
           <div className={cn("formbox my-3")}>
@@ -87,8 +88,9 @@ export default function Login() {
                   type="text"
                   placeholder="Email"
                   className={cn("p-2 rounded-md bg-gray-800 text-white")}
+                  autocomplete="current-email"
                   {...register("email", { required: true })}
-                  
+
                 />
 
                 <div className={cn("error text-red-700 font-medium text-base mt-1")}>
@@ -101,8 +103,9 @@ export default function Login() {
                   type="password"
                   placeholder="Password"
                   className={cn("p-2 rounded-md bg-gray-800 text-white")}
+                  autocomplete="current-password"
                   {...register("password", { required: true })}
-                  
+
                 />
 
                 <div className={cn("error text-red-700 font-medium text-base mt-1")}>

@@ -1,11 +1,29 @@
-import { SubmitHandler, useForm } from "react-hook-form";
 import { cn } from "@/utils/cn";
 import Button from "@/components/Button";
+import axios from "axios";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
-  const { handleSubmit } = useForm();
 
-  const onSubmit: SubmitHandler = () => {};
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+    try {
+      const response = await axios.post("/api/logout");
+
+      if (response.status === 200) {
+        localStorage.removeItem("token");
+        toast.success("Successfully Logout");
+        navigate("/");
+      }
+    } catch (error) {
+    
+       toast.error("Not logout")
+    }
+  };
+
   return (
     <header>
       <div className={cn("logoContianer absolute w-full z-50")}>
@@ -21,7 +39,7 @@ export default function Header() {
             </h1>
           </div>
           <div className="logoutBtn text-white cursor-pointer">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit}>
               <Button type="submit" name="Logout" value="logout" />
             </form>
           </div>

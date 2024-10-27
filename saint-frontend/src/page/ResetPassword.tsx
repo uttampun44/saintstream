@@ -3,6 +3,7 @@ import { cn } from "../utils/cn";
 import Button from "@/components/Button";
 import InputType from "@/components/Input";
 import Logo from "/public/images/Logo.png";
+import Overlay from "@/components/Overlay";
 
 export default function ResetPassword(){
     return(
@@ -16,7 +17,7 @@ export default function ResetPassword(){
         height: "100vh",
       }}
     >
-      <div className={cn("fixed w-full h-full inset-0 bg-black/90 z-30")}></div>
+      <Overlay />
       <div
         className={cn(
           "loginContainer fixed bg-black/90 top-1/2 left-1/2 z-50 border-gray-800 rounded-lg border-2 -translate-x-1/2 -translate-y-1/2 max-w-lg min-w-md max-h-[519px] min-h-max w-full"
