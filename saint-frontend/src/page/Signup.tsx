@@ -3,7 +3,7 @@ import Button from "@/components/Button";
 import { cn } from "@/utils/cn";
 import InputType from "@/components/Input";
 import { SubmitHandler, useForm } from "react-hook-form";
-import BackgroundImage from "../../public/images/Image.jpg";
+import BackgroundImage from "../../public/images/Image.webp";
 import Logo from "../../public/images/Logo.png";
 import axios from "axios";
 import { toast } from "sonner";
@@ -63,7 +63,7 @@ export default function Signup() {
         <div className={cn("loginForm grid p-5")}>
           <div className={cn("logoRow text-white")}>
             <div className={cn("logo flex")}>
-              <img src={Logo} alt={Logo} />
+              <img src={Logo} alt={Logo} className={cn("w-12 h-12 object-contain")}/>
               <span className={cn("font-bold text-4xl ")}>Saint Stream</span>
               <br></br>
             </div>
@@ -75,7 +75,7 @@ export default function Signup() {
           <div className={cn("formbox my-3")}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className={cn("username grid gap-y-2")}>
-                <label htmlFor="Username">Username :</label>
+                <label htmlFor="Username" className={cn("text-white font-medium text-base")}>Username :</label>
 
                 <InputType
                   type="text"
@@ -89,7 +89,7 @@ export default function Signup() {
                 </div>
               </div>
               <div className={cn("email grid gap-y-2")}>
-                <label htmlFor="Email">Email :</label>
+                <label htmlFor="Email" className={cn("text-white font-medium text-base")}>Email :</label>
 
                 <InputType
                   type="text"
@@ -103,7 +103,7 @@ export default function Signup() {
               </div>
 
               <div className={cn("password grid gap-y-2 ")}>
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password" className={cn("text-white font-medium text-base")}>Password</label>
 
                 <InputType
                   type="password"
@@ -117,7 +117,7 @@ export default function Signup() {
                 </div>
               </div>
               <div className={cn("confirm-password grid gap-y-2 mb-5")}>
-                <label htmlFor="confirm_password">Confirm Password</label>
+                <label htmlFor="confirm_password" className={cn("text-white font-medium text-base")}>Confirm Password</label>
 
                 <InputType
                   type="password"
@@ -159,7 +159,7 @@ export default function Signup() {
           <div className={cn("signup text-center my-3")}>
             <span className={cn("text-gray-500")}>Already have an account</span>
             <span className={cn("text-white font-bold ml-1")}>
-              <Link to="/">Login</Link>
+              <Link to="/" aria-label="login" className={cn("cursor-pointer")}>Login</Link>
             </span>
           </div>
         </div>

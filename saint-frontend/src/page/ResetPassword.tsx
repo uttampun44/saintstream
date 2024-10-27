@@ -1,4 +1,4 @@
-import BackgroundImage from "../../public/images/Image.jpg";
+import BackgroundImage from "../../public/images/Image.webp"
 import { cn } from "../utils/cn";
 import Button from "@/components/Button";
 import InputType from "@/components/Input";
@@ -26,7 +26,7 @@ export default function ResetPassword(){
         <div className={cn("loginForm grid p-5")}>
           <div className={cn("logoRow text-white")}>
             <div className={cn("logo flex ")}>
-              <img src={Logo} alt={Logo} />
+              <img src={Logo} alt={Logo} className={cn("w-12 h-12 object-contain")}/>
               <span className={cn("font-bold text-4xl ")}>Saint Stream</span>
               <br></br>
             </div>

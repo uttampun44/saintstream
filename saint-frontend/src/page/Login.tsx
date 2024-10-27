@@ -1,5 +1,5 @@
 import { cn } from "@/utils/cn";
-import BackgroundImage from "../../public/images/Image.jpg";
+import BackgroundImage from "../../public/images/Image.webp";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Logo from "/public/images/Logo.png";
 import InputType from "@/components/Input";
@@ -72,7 +72,7 @@ export default function Login() {
         <div className={cn("loginForm grid p-5")}>
           <div className={cn("logoRow text-white")}>
             <div className={cn("logo flex ")}>
-              <img src={Logo} alt={Logo} />
+              <img src={Logo} alt={Logo} className={cn("w-12 h-12 object-contain")} />
               <span className={cn("font-bold text-4xl ")}>Saint Stream</span>
               <br></br>
             </div>
@@ -81,46 +81,45 @@ export default function Login() {
 
           <div className={cn("formbox my-3")}>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className={cn("email grid gap-y-2")}>
-                <label htmlFor="Email">Email</label>
-
+              <div className={cn("email grid gap-y-2 mt-4")}>
+              <label htmlFor="Email" className="text-white font-medium text-base">Email </label>
                 <InputType
                   type="text"
                   placeholder="Email"
-                  className={cn("p-2 rounded-md bg-gray-800 text-white")}
+                  className={cn("p-2 rounded-md bg-gray-800 text-white font-medium text-base")}
                   autocomplete="current-email"
                   {...register("email", { required: true })}
 
                 />
 
-                <div className={cn("error text-red-700 font-medium text-base mt-1")}>
+                <div className={cn("error text-red-700 font-medium text-base mt-1 min-h-6")}>
                   {errors.email && <>This field is required</>}
                 </div>
               </div>
-              <div className={cn("password grid gap-y-2 mt-2")}>
-                <label htmlFor="Password">Password</label>
+              <div className={cn("password grid gap-y-2 mt-4")}>
+              <label htmlFor="Password" className="text-white font-medium text-base">Password </label>
                 <InputType
                   type="password"
                   placeholder="Password"
-                  className={cn("p-2 rounded-md bg-gray-800 text-white")}
+                  className={cn("p-2 rounded-md bg-gray-800 text-white font-medium text-base")}
                   autocomplete="current-password"
                   {...register("password", { required: true })}
 
                 />
 
-                <div className={cn("error text-red-700 font-medium text-base mt-1")}>
+                <div className={cn("error text-red-700 font-medium text-base mt-1 ")}>
                   {errors.password && <>This field is required</>}
                 </div>
               </div>
               <div className={cn("forgotPassword text-center text-white font-bold text-lg my-4")}>
-                <Link to="reset-password">Forgot Password</Link>
+                <Link to="reset-password" aria-label="forget-password" className="cursor-pointer">Forgot Password</Link>
               </div>
 
               <div className={cn("submitButton")}>
                 <Button
                   type="submit"
                   value="Submit"
-                  className={cn("bg-white w-full p-2 rounded-md text-slate-600 text-center  font-medium  text-xl")}
+                  className={cn("bg-red-700 w-full p-2 rounded-md text-white text-center  font-medium  text-xl")}
                   name="submit"
                 />
               </div>
