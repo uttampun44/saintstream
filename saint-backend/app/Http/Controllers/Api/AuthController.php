@@ -83,11 +83,26 @@ class AuthController extends Controller
 
     public function logout(Request $request): JsonResponse
     {
-        
-        return response()->json([]);
+        $user = $request->user();
+
+        if(!$user)
+        {
+           return response()->json([
+              'status' => false,
+              'message' => 'User not authenticated'
+           ]);
+        }
+        $user->currentAccessToken()->delete();
+
+        return response()->json([
+           'status' => true,
+           'message' => 'successfully logout'
+        ]);
+
+       
     }
 
-    public function resetPassword(LoginRequest $request)
+    public function forgetPassword(LoginRequest $request)
     {
 
         
@@ -100,5 +115,27 @@ class AuthController extends Controller
         ? back()->with(['status' => __($status)])
         : back()->withErrors(['email' => __($status)]);
 
+    }
+
+    public function resetPassword(LoginRequest $request)
+    {
+               $request->validate([
+                 'token' => 'required',
+                 'email' => 'required|email',
+                 'password' => 'required|string|confirmed|min:8',
+               ]);
+
+               $status = Password::reset(
+                  $request->only('email', 'password', 'confirm_password', 'token'),
+                  function($user, $password){
+                    $user->forceFill([
+                        'password' => bcrypt($password),
+                    ])->save();
+                  }
+                );
+
+              return $status === Password::PASSWORD_RESET
+              ? response()->json(['status' => __($status)]) 
+              : response()->json(['password' => __($status)]); 
     }
 }

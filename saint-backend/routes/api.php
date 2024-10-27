@@ -6,4 +6,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-Route::post('forget-password', [AuthController::class, 'resetPassword']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctume');
+Route::post('forget-password', [AuthController::class, 'forgetPassword']);

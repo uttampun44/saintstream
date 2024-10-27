@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import BackgroundImage from "../../public/images/Image.jpg";
 import { cn } from "../utils/cn";
 import Button from "@/components/Button";
