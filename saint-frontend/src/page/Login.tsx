@@ -112,7 +112,7 @@ export default function Login() {
                 </div>
               </div>
               <div className={cn("forgotPassword text-center text-white font-bold text-lg my-4")}>
-                <Link to="reset-password" aria-label="forget-password" className="cursor-pointer">Forgot Password</Link>
+                <Link to="forget-password" aria-label="forget-password" className="cursor-pointer">Forgot Password</Link>
               </div>
 
               <div className={cn("submitButton")}>

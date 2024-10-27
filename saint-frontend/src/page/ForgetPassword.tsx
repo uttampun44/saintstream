@@ -8,11 +8,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 type forgetInputs = {
   email:string
-  password:string,
-  confirm_password:string
 }
 
-export default function ResetPassword(){
+export default function ForgetPassword(){
 
   const {register, formState:{errors}, handleSubmit} = useForm<forgetInputs>();
 
@@ -48,8 +46,9 @@ export default function ResetPassword(){
 
         <div className={cn("formbox my-3")}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className={cn("email grid gap-y-2 mt-2")}>
-             
+            <div className={cn("email grid gap-y-2")}>
+              <label htmlFor="Email">Email</label>
+
               <InputType
                 type="text"
                 placeholder="Email"
@@ -60,36 +59,6 @@ export default function ResetPassword(){
 
               <div className={cn("error text-red-700 font-medium text-base mt-1 min-h-6")}>
                 {errors.email && <>This field is required</>}
-              </div>
-            </div>
-
-            <div className={cn("password grid gap-y-2 mt-2")}>
-             
-              <InputType
-                type="text"
-                placeholder="Password"
-                className={cn("p-2 rounded-md bg-gray-800 text-white")}
-               {...register("password", {required: true})}
-                
-              />
-
-              <div className={cn("error text-red-700 font-medium text-base mt-1 min-h-6")}>
-                {errors.password && <>This field is required</>}
-              </div>
-            </div>
-
-            <div className={cn("confirm_password grid gap-y-2 mt-2")}>
-            
-              <InputType
-                type="text"
-                placeholder="Confirm Password"
-                className={cn("p-2 rounded-md bg-gray-800 text-white")}
-               {...register("confirm_password", {required: true})}
-                
-              />
-
-              <div className={cn("error text-red-700 font-medium text-base mt-1 min-h-6")}>
-                {errors.password && <>This field is required</>}
               </div>
             </div>
          

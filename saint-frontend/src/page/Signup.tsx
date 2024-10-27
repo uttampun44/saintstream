@@ -75,7 +75,7 @@ export default function Signup() {
           <div className={cn("formbox my-3")}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className={cn("username grid gap-y-2")}>
-                <label htmlFor="Username" className={cn("text-white font-medium text-base")}>Username :</label>
+                <label htmlFor="Username" className={cn("text-white font-medium text-base")}>Username </label>
 
                 <InputType
                   type="text"
@@ -89,7 +89,7 @@ export default function Signup() {
                 </div>
               </div>
               <div className={cn("email grid gap-y-2")}>
-                <label htmlFor="Email" className={cn("text-white font-medium text-base")}>Email :</label>
+                <label htmlFor="Email" className={cn("text-white font-medium text-base")}>Email </label>
 
                 <InputType
                   type="text"
@@ -149,7 +149,7 @@ export default function Signup() {
                   type="submit"
                   value="Submit"
                   className={cn(
-                    "bg-white w-full p-2 rounded-md text-slate-600 text-center  font-medium  text-xl"
+                    "bg-red-700 text-white w-full p-2 rounded-md text-center  font-medium  text-xl"
                   )}
                   name="submit"
                 />
