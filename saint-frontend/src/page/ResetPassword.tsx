@@ -18,6 +18,7 @@ export default function ResetPassword(){
 
   const onSubmit: SubmitHandler<forgetInputs> = async(data, event) => {
     event?.preventDefault()
+    console.log(data)
   }
    return(
     <section
