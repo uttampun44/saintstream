@@ -9,6 +9,7 @@ export default function Header() {
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent) => {
+
     event.preventDefault()
     try {
       const response = await axios.post("/api/logout");
@@ -20,7 +21,7 @@ export default function Header() {
       }
     } catch (error) {
     
-       toast.error("Not logout")
+       toast.error("Not Logout")
     }
   };
 
@@ -40,7 +41,7 @@ export default function Header() {
           </div>
           <div className="logoutBtn text-white cursor-pointer">
             <form onSubmit={handleSubmit}>
-              <Button type="submit" name="Logout" value="logout" />
+              <Button type="submit" name="Logout" value="logout" className="cursor-pointer" />
             </form>
           </div>
         </div>

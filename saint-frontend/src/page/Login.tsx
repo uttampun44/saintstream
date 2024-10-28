@@ -86,7 +86,7 @@ export default function Login() {
                 <InputType
                   type="text"
                   placeholder="Email"
-                  className={cn("p-2 rounded-md bg-gray-800 text-white font-medium text-base")}
+                  className={cn("p-2 rounded-md bg-gray-800 text-white font-normal text-base")}
                   autocomplete="current-email"
                   {...register("email", { required: true })}
 
@@ -101,7 +101,7 @@ export default function Login() {
                 <InputType
                   type="password"
                   placeholder="Password"
-                  className={cn("p-2 rounded-md bg-gray-800 text-white font-medium text-base")}
+                  className={cn("p-2 rounded-md bg-gray-800 text-white font-normal text-base")}
                   autocomplete="current-password"
                   {...register("password", { required: true })}
 

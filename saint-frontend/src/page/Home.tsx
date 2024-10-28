@@ -18,8 +18,6 @@ export default function Home() {
   if (loading) return toast.loading("Loading");
   if (error) return toast.error("Error in loading");
 
-  console.log(genres);
-
   const getGenreNames = (genreIds: number[]) =>
     genreIds
       .map((id) => genres?.find((genre: any) => genre.id === id)?.name)
@@ -48,7 +46,7 @@ export default function Home() {
           ></div>
           <div
             className={cn(
-              "homeContainer relative z-50 max-w-[1440px] mx-auto p-5"
+              "homeContainer relative z-30 max-w-[1440px] mx-auto p-5"
             )}
           >
             <div className="grid h-[700px] items-end justify-start max-w-2xl w-full">

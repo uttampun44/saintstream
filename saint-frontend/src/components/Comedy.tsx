@@ -37,7 +37,7 @@ export default function Comedy() {
 
           <div
             className={cn(
-              "homeContainer relative z-50 max-w-[1440px] mx-auto p-5"
+              "homeContainer relative z-30 max-w-[1440px] mx-auto p-5"
             )}
           >
             <div className="grid h-[700px] items-end justify-start max-w-2xl w-full">

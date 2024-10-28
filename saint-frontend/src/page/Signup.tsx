@@ -80,7 +80,7 @@ export default function Signup() {
                 <InputType
                   type="text"
                   placeholder="Username"
-                  className={cn("p-2 rounded-md bg-gray-800 text-white")}
+                  className={cn("p-2 rounded-md bg-gray-800 text-white font-normal")}
                   {...register("name", { required: true })}
                 />
 
@@ -94,7 +94,7 @@ export default function Signup() {
                 <InputType
                   type="text"
                   placeholder="Email"
-                  className={cn("p-2 rounded-md bg-gray-800 text-white")}
+                  className={cn("p-2 rounded-md bg-gray-800 text-white font-normal")}
                   {...register("email", { required: true })}
                 />
                 <div className="error text-red-700 text-base font-medium">
