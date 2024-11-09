@@ -5,6 +5,7 @@ import InputType from "@/components/Input";
 import Logo from "/public/images/Logo.png";
 import Overlay from "@/components/Overlay";
 import { SubmitHandler, useForm } from "react-hook-form";
+import axios from "axios";
 
 type forgetInputs = {
   email: string
@@ -14,9 +15,14 @@ export default function ForgetPassword() {
 
   const { register, formState: { errors }, handleSubmit } = useForm<forgetInputs>();
 
-  const onSubmit: SubmitHandler<forgetInputs> = async (data, event) => {
-    event?.preventDefault()
+  const onSubmit: SubmitHandler<forgetInputs> = async(data, event) => {
+
     console.log(data)
+    event?.preventDefault()
+
+    const response = await axios.post("/api/forget-password");
+  
+    console.log(response)
   }
   return (
     <section
@@ -66,9 +72,9 @@ export default function ForgetPassword() {
               <div className={cn("submitButton my-4")}>
                 <Button
                   type="submit"
-                  value="Submit"
+                  value="Send"
                   className={cn("bg-white w-full p-2 rounded-md text-slate-600 text-center  font-medium  text-xl")}
-                  name="submit"
+                  name="Send"
                 />
               </div>
             </form>

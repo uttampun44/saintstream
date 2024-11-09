@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
@@ -102,19 +105,43 @@ class AuthController extends Controller
 
     }
 
-    public function forgetPassword(LoginRequest $request)
+    public function forgetPassword(Request $request)
     {
 
+   
+        $email =  $request->validate([
+           'email' => 'required|email|unique:users,email',
+        ]);
 
-        $status = Password::sendResetLink(
+        $user = User::where('email', $email)->exists();
 
-            $request->safe()->only('email')
-        );
+        if(!$user)
+        {
+            return response()->json([
+              'message' => 'Email does not exists',
+              'status' => false,
+            ], 404);
+        }
 
-        return $status === Password::RESET_LINK_SENT
-        ? back()->with(['status' => __($status)])
-        : back()->withErrors(['email' => __($status)]);
+        $status = Password::sendResetLink(['email' => $email]);
 
+        if($status === Password::RESET_LINK_SENT)
+        {
+            Mail::send('reset', ['token' => $request->token], function (Message $message) use ($email) {
+                $message->subject('Reset Your Password');
+                $message->to($email);
+            });
+    
+            return response()->json([
+                'message' => 'Password Reset Email Sent... Check Your Email',
+                'status' => 'success'
+            ], 200);
+        }else{
+            return response()->json([
+                'message' => 'Failed to send reset link',
+                'status' => false
+            ], 500);
+        }
     }
 
     public function resetPassword(LoginRequest $request)
