@@ -127,10 +127,10 @@ class AuthController extends Controller
  
          if($status === Password::RESET_LINK_SENT)
          {
-             Mail::send('reset', ['token' => $request->token], function (Message $message) use ($email) {
-                 $message->subject('Reset Your Password');
-                 $message->to($email);
-             });
+            //  Mail::send('reset', ['token' => $request->token], function (Message $message) use ($email) {
+            //      $message->subject('Reset Your Password');
+            //      $message->to($email);
+            //  });
      
              return response()->json([
                  'message' => 'Password Reset Email Sent... Check Your Email',
