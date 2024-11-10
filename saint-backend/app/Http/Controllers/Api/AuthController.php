@@ -108,40 +108,45 @@ class AuthController extends Controller
     public function forgetPassword(Request $request)
     {
 
-   
+      try {
         $email =  $request->validate([
-           'email' => 'required|email|unique:users,email',
-        ]);
-
-        $user = User::where('email', $email)->exists();
-
-        if(!$user)
-        {
-            return response()->json([
-              'message' => 'Email does not exists',
-              'status' => false,
-            ], 404);
-        }
-
-        $status = Password::sendResetLink(['email' => $email]);
-
-        if($status === Password::RESET_LINK_SENT)
-        {
-            Mail::send('reset', ['token' => $request->token], function (Message $message) use ($email) {
-                $message->subject('Reset Your Password');
-                $message->to($email);
-            });
-    
-            return response()->json([
-                'message' => 'Password Reset Email Sent... Check Your Email',
-                'status' => 'success'
-            ], 200);
-        }else{
-            return response()->json([
-                'message' => 'Failed to send reset link',
-                'status' => false
-            ], 500);
-        }
+            'email' => 'required|email',
+         ]);
+ 
+         $user = User::where('email', $email)->exists();
+ 
+         if(!$user)
+         {
+             return response()->json([
+               'message' => 'Email does not exists',
+               'status' => false,
+             ], 404);
+         }
+ 
+         $status = Password::sendResetLink(['email' => $email]);
+ 
+         if($status === Password::RESET_LINK_SENT)
+         {
+             Mail::send('reset', ['token' => $request->token], function (Message $message) use ($email) {
+                 $message->subject('Reset Your Password');
+                 $message->to($email);
+             });
+     
+             return response()->json([
+                 'message' => 'Password Reset Email Sent... Check Your Email',
+                 'status' => 'success'
+             ], 200);
+         }else{
+             return response()->json([
+                 'message' => 'Failed to send reset link',
+                 'status' => false
+             ], 500);
+         }
+      } catch (\Throwable $th) {
+        $th->getMessage();
+        Log::error($th->getMessage());
+      }
+      
     }
 
     public function resetPassword(LoginRequest $request)

@@ -15,14 +15,18 @@ export default function ForgetPassword() {
 
   const { register, formState: { errors }, handleSubmit } = useForm<forgetInputs>();
 
-  const onSubmit: SubmitHandler<forgetInputs> = async(data, event) => {
+  const onSubmit: SubmitHandler<forgetInputs> = async (data, event) => {
 
     console.log(data)
     event?.preventDefault()
 
-    const response = await axios.post("/api/forget-password");
-  
-    console.log(response)
+    try {
+      const response = await axios.post("/api/forget-password", data);
+
+      console.log(response)
+    } catch (error: any) {
+      throw new error
+    }
   }
   return (
     <section
