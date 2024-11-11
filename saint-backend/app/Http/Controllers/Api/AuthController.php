@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Mail\PasswordResetMail;
 use App\Models\User;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\JsonResponse;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+
 
 class AuthController extends Controller
 {
@@ -109,39 +112,34 @@ class AuthController extends Controller
     {
 
       try {
-        $email =  $request->validate([
-            'email' => 'required|email',
-         ]);
- 
-         $user = User::where('email', $email)->exists();
- 
-         if(!$user)
-         {
-             return response()->json([
-               'message' => 'Email does not exists',
-               'status' => false,
-             ], 404);
-         }
- 
-         $status = Password::sendResetLink(['email' => $email]);
- 
-         if($status === Password::RESET_LINK_SENT)
-         {
-            //  Mail::send('reset', ['token' => $request->token], function (Message $message) use ($email) {
-            //      $message->subject('Reset Your Password');
-            //      $message->to($email);
-            //  });
-     
-             return response()->json([
-                 'message' => 'Password Reset Email Sent... Check Your Email',
-                 'status' => 'success'
-             ], 200);
-         }else{
-             return response()->json([
-                 'message' => 'Failed to send reset link',
-                 'status' => false
-             ], 500);
-         }
+           $validated =  $request->validate([
+               'email' => 'required|email',
+             ]);
+        
+
+             $email = $validated['email'];
+
+        $user = User::where('email', $email)->exists();
+        
+        if(!$user)
+        {
+            return response()->json([
+                'message' => 'Email does not exists',
+                'status' => false,
+            ], 404);
+        }
+        
+        $token = Str::random(60);
+
+        $resetLink = 'http://localhost:3000/reset-password/'. $token . '?email=' . urlencode($email);
+
+        Mail::to($email)->send(new PasswordResetMail($token, $email));
+
+        return response()->json([
+            'message' => 'Password reset email has been sent. Please check your inbox.',
+            'status' => 'success',
+        ], 200);
+         
       } catch (\Throwable $th) {
         $th->getMessage();
         Log::error($th->getMessage());
