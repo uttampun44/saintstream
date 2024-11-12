@@ -121,24 +121,28 @@ class AuthController extends Controller
 
         $user = User::where('email', $email)->exists();
         
-        if(!$user)
+        if($user)
         {
+            $token = Str::random(60);
+
+            $resetLink = 'http://localhost:3000/reset-password/'. $token . '?email=' . urlencode($email);
+    
+            Mail::to($email)->send(new PasswordResetMail($token, $email));
+    
+            return response()->json([
+                'message' => 'Password reset email has been sent. Please check your inbox.',
+                'status' => 'success',
+            ], 200);
+
+        }else{
             return response()->json([
                 'message' => 'Email does not exists',
                 'status' => false,
-            ], 404);
+            ], 500);
+
         }
         
-        $token = Str::random(60);
-
-        $resetLink = 'http://localhost:3000/reset-password/'. $token . '?email=' . urlencode($email);
-
-        Mail::to($email)->send(new PasswordResetMail($token, $email));
-
-        return response()->json([
-            'message' => 'Password reset email has been sent. Please check your inbox.',
-            'status' => 'success',
-        ], 200);
+      
          
       } catch (\Throwable $th) {
         $th->getMessage();

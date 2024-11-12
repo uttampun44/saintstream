@@ -31,7 +31,7 @@ class PasswordResetMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Password Reset Mail',
+            subject: 'SaintStream - Password Reset Mail',
         );
     }
 
@@ -43,7 +43,7 @@ class PasswordResetMail extends Mailable
         $resetLink = 'http://localhost:3000/reset-password/' . $this->token . '?email=' . urlencode($this->email);
 
         return new Content(
-            view: 'emails', // Your Blade view for the email content
+            view: 'emails', 
             with: [
                 'resetLink' => $resetLink,
             ]

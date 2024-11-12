@@ -6,6 +6,7 @@ import Logo from "/public/images/Logo.png";
 import Overlay from "@/components/Overlay";
 import { SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
+import { toast } from "sonner";
 
 type forgetInputs = {
   email: string
@@ -17,13 +18,17 @@ export default function ForgetPassword() {
 
   const onSubmit: SubmitHandler<forgetInputs> = async (data, event) => {
 
-    console.log(data)
     event?.preventDefault()
 
     try {
       const response = await axios.post("/api/forget-password", data);
 
-      console.log(response)
+      if(response.status === 200){
+        toast.success("Password reset email has been sent. Please check your inbox.")
+      }
+      if(response.status === 500){
+         toast.error("Email does not exists")
+      }
     } catch (error: any) {
       throw new error
     }
