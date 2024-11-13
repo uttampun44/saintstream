@@ -6,11 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Mail\PasswordResetMail;
 use App\Models\User;
-use Illuminate\Auth\Events\Validated;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -121,27 +122,34 @@ class AuthController extends Controller
 
         $user = User::where('email', $email)->exists();
         
-        if($user)
+        if(!$user)
         {
-            $token = Str::random(60);
-
-            $resetLink = 'http://localhost:3000/reset-password/'. $token . '?email=' . urlencode($email);
-    
-            Mail::to($email)->send(new PasswordResetMail($token, $email));
-    
-            return response()->json([
-                'message' => 'Password reset email has been sent. Please check your inbox.',
-                'status' => 'success',
-            ], 200);
-
-        }else{
             return response()->json([
                 'message' => 'Email does not exists',
                 'status' => false,
             ], 500);
-
         }
         
+        $token = DB::table('password_reset_tokens')->where('email', $email)->value('token');
+
+        if (!$token) {
+            $token = Str::random(60);
+            DB::table('password_reset_tokens')->updateOrInsert([
+                 'email' => $email,
+                 'token' => $token,
+                 'created_at' => Carbon::now()
+              ]
+            );
+        }
+
+        $resetLink = 'http://localhost:3000/reset-password?token=' . $token . '&email=' . urlencode($email);
+
+        Mail::to($email)->send(new PasswordResetMail($token, $email));
+
+        return response()->json([
+            'message' => 'Password reset email has been sent. Please check your inbox.',
+            'status' => 'success',
+        ], 200);
       
          
       } catch (\Throwable $th) {
