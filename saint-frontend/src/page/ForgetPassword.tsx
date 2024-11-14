@@ -73,9 +73,13 @@ export default function ForgetPassword() {
 
                 />
 
-                <div className={cn("error text-red-700 font-medium text-base mt-1 min-h-6")}>
+               {
+                errors.email && (
+                  <div className={cn("error text-red-700 font-medium text-base mt-1 min-h-6")}>
                   {errors.email && <>This field is required</>}
                 </div>
+                )
+               }
               </div>
 
               <div className={cn("submitButton my-4")}>
