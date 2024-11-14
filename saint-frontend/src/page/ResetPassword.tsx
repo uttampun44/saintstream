@@ -5,6 +5,7 @@ import InputType from "@/components/Input";
 import Logo from "/public/images/Logo.png";
 import Overlay from "@/components/Overlay";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useSearchParams } from "react-router-dom";
 
 type forgetInputs = {
   email:string
@@ -13,6 +14,11 @@ type forgetInputs = {
 }
 
 export default function ResetPassword(){
+
+  const [searchParams] = useSearchParams();
+    searchParams.get("token");
+    searchParams.get("email");
+
 
   const {register, formState:{errors}, handleSubmit} = useForm<forgetInputs>();
 

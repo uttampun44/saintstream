@@ -142,7 +142,6 @@ class AuthController extends Controller
             );
         }
 
-        $resetLink = 'http://localhost:3000/reset-password?token=' . $token . '&email=' . urlencode($email);
 
         Mail::to($email)->send(new PasswordResetMail($token, $email));
 

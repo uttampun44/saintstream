@@ -17,7 +17,7 @@ export default function AppRoute(){
           <Route path="/" element={<Login />} />
           <Route path="/home" element={bearerToken?.token ? <Home /> : <Navigate to="/" />} />
           <Route path="forget-password" element={<ForgetPassword />} />
-          <Route path="reset-password/:token" element={<ResetPassword />}/>
+          <Route path="reset-password" element={<ResetPassword />}/>
        </Routes>
     )
 }

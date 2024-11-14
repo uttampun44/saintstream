@@ -20,9 +20,10 @@ class PasswordResetMail extends Mailable
     public $token;
     public $email;
 
-    public function __construct()
+    public function __construct($token, $email)
     {
-      
+      $this->token = $token;
+      $this->email = $email;
     }
 
     /**
@@ -40,7 +41,7 @@ class PasswordResetMail extends Mailable
      */
     public function content(): Content
     {
-        $resetLink = 'http://localhost:3000/reset-password/' . $this->token . '?email=' . urlencode($this->email);
+        $resetLink = 'http://localhost:3000/reset-password?token=' . $this->token . '&email=' . urlencode($this->email);
 
         return new Content(
             view: 'emails', 
