@@ -82,8 +82,8 @@ class AuthController extends Controller
             Log::error($th->getMessage());
 
             return response()->json([
-               'status' => false,
-               'message' => "Internal Serval Error"
+                'status' => false,
+                'message' => "Internal Serval Error"
             ], 500);
         }
     }
@@ -92,91 +92,102 @@ class AuthController extends Controller
     {
         $user = $request->user();
 
-        if(!$user)
-        {
-           return response()->json([
-              'status' => false,
-              'message' => 'User not authenticated'
-           ]);
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not authenticated'
+            ]);
         }
         $user->currentAccessToken()->delete();
 
         return response()->json([
-           'status' => true,
-           'message' => 'successfully logout'
+            'status' => true,
+            'message' => 'successfully logout'
         ]);
-
-
     }
 
     public function forgetPassword(Request $request)
     {
 
-      try {
-           $validated =  $request->validate([
-               'email' => 'required|email',
-             ]);
-        
+        try {
+            $validated =  $request->validate([
+                'email' => 'required|email',
+            ]);
 
-             $email = $validated['email'];
 
-        $user = User::where('email', $email)->exists();
-        
-        if(!$user)
-        {
+            $email = $validated['email'];
+
+            $user = User::where('email', $email)->exists();
+
+            if (!$user) {
+                return response()->json([
+                    'message' => 'Email does not exists',
+                    'status' => false,
+                ], 500);
+            }
+
+            $token = DB::table('password_reset_tokens')->where('email', $email)->value('token');
+
+            if (!$token) {
+                $token = Str::random(60);
+                DB::table('password_reset_tokens')->updateOrInsert(
+                    [
+                        'email' => $email,
+                        'token' => $token,
+                        'created_at' => Carbon::now()
+                    ]
+                );
+            }
+
+
+            Mail::to($email)->send(new PasswordResetMail($token, $email));
+
             return response()->json([
-                'message' => 'Email does not exists',
-                'status' => false,
-            ], 500);
+                'message' => 'Password reset email has been sent. Please check your inbox.',
+                'status' => 'success',
+            ], 200);
+        } catch (\Throwable $th) {
+            $th->getMessage();
+            Log::error($th->getMessage());
         }
-        
-        $token = DB::table('password_reset_tokens')->where('email', $email)->value('token');
-
-        if (!$token) {
-            $token = Str::random(60);
-            DB::table('password_reset_tokens')->updateOrInsert([
-                 'email' => $email,
-                 'token' => $token,
-                 'created_at' => Carbon::now()
-              ]
-            );
-        }
-
-
-        Mail::to($email)->send(new PasswordResetMail($token, $email));
-
-        return response()->json([
-            'message' => 'Password reset email has been sent. Please check your inbox.',
-            'status' => 'success',
-        ], 200);
-      
-         
-      } catch (\Throwable $th) {
-        $th->getMessage();
-        Log::error($th->getMessage());
-      }
-      
     }
 
-    public function resetPassword(LoginRequest $request)
+    public function resetPassword(Request $request)
     {
-               $request->validate([
-                 'token' => 'required',
-                 'email' => 'required|email',
-                 'password' => 'required|string|confirmed|min:8',
-               ]);
+        $validate =   $request->validate([
+            'token' => 'required',
+            'password' => 'required|string|confirmed',
+        ]);
 
-               $status = Password::reset(
-                  $request->only('email', 'password', 'confirm_password', 'token'),
-                  function($user, $password){
-                    $user->forceFill([
-                        'password' => Hash::make($password),
-                    ])->save();
-                  }
-                );
+        try {
+            $validToken = DB::table('password_reset_tokens')->where('token', $validate['token'])->first();
 
-              return $status === Password::PASSWORD_RESET
-              ? response()->json(['status' => __($status)])
-              : response()->json(['password' => __($status)]);
+            if (!$validToken) {
+                return response()->json([
+                    'message' => 'Invalid token or email.',
+                    'status' => false,
+                ], 400);
+            }
+
+
+
+            User::Where('email', $validToken->email)->update([
+                'password' => Hash::make($validate['password'])
+            ]);
+
+            DB::table('password_reset_tokens')
+                ->where('token', $validToken->token)
+                ->delete();
+
+            return response()->json([
+                'message' => 'New Password Created'
+            ], 200);
+        } catch (\Throwable $th) {
+            Log::error('Error resetting password: ' . $th->getMessage());
+
+            return response()->json([
+                'message' => 'Internal Server'
+            ], 500);
+        }
     }
 }
