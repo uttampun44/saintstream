@@ -10,7 +10,8 @@ export default defineConfig({
     proxy:{
       "/api":{
         target: "https://saintstream-production.up.railway.app",
-        changeOrigin: true
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
       }
       
     }
