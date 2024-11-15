@@ -67,7 +67,7 @@ export default function Signup() {
               <span className={cn("font-bold text-4xl ")}>Saint Stream</span>
               <br></br>
             </div>
-            <div className={cn("title mt-3")}>
+            <div className={cn("title mt-4")}>
               <h6>Register to enjoy the feature</h6>
             </div>
           </div>
@@ -84,7 +84,7 @@ export default function Signup() {
                   {...register("name", { required: true })}
                 />
 
-                <div className={cn("error text-red-700 text-base font-medium")}>
+                <div className={cn("error text-red-700 text-base font-medium mt-1 min-h-6")}>
                   {errors.name && <>This field is required</>}
                 </div>
               </div>
@@ -97,7 +97,7 @@ export default function Signup() {
                   className={cn("p-2 rounded-md bg-gray-800 text-white font-normal")}
                   {...register("email", { required: true })}
                 />
-                <div className="error text-red-700 text-base font-medium">
+                <div className="error text-red-700 text-base font-medium mt-1 min-h-6">
                   {errors.email && <>This field is required</>}
                 </div>
               </div>
@@ -112,7 +112,7 @@ export default function Signup() {
                   className={cn("p-2 rounded-md bg-gray-800 text-white")}
                 />
 
-                <div className={cn("error text-red-700 text-base font-medium")}>
+                <div className={cn("error text-red-700 text-base font-medium mt-1 min-h-6")}>
                   {errors.password && <>This field is required</>}
                 </div>
               </div>
@@ -125,7 +125,7 @@ export default function Signup() {
                   placeholder="Confirm Password"
                   className={cn("p-2 rounded-md bg-gray-800 text-white")}
                 />
-                <div className={cn("error text-red-700 text-base font-medium")}>
+                <div className={cn("error text-red-700 text-base font-medium mt-1 min-h-6")}>
                   {errors.password_confirmation && <>This field is required</>}
                 </div>
               </div>
