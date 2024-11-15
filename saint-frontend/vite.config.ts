@@ -16,8 +16,7 @@ export default defineConfig({
       
     }
   },
-  //  rewrite path
- 
+
   resolve:{
     alias:{
       "@": path.resolve(__dirname, "./src"),
