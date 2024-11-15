@@ -11,7 +11,7 @@ export default defineConfig({
       "/api":{
         target: "https://saintstream-production.up.railway.app",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+
       }
       
     }
