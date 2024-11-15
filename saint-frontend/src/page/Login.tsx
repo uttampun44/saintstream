@@ -107,7 +107,7 @@ export default function Login() {
 
                 />
 
-                <div className={cn("error text-red-700 font-medium text-base mt-1 ")}>
+                <div className={cn("error text-red-700 font-medium text-base mt-1 min-h-6")}>
                   {errors.password && <>This field is required</>}
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useSearchParams } from "react-router-dom";
 import Signup from "@/page/Signup";
 import Login from "@/page/Login";
 import Home from "@/page/Home";
@@ -10,6 +10,9 @@ import ResetPassword from "@/page/ResetPassword";
 export default function AppRoute(){
 
    const bearerToken = useContext(Context);
+
+   const [searchParams] = useSearchParams();
+   const token = searchParams.get("token");
  
     return(
        <Routes>
@@ -17,7 +20,7 @@ export default function AppRoute(){
           <Route path="/" element={<Login />} />
           <Route path="/home" element={bearerToken?.token ? <Home /> : <Navigate to="/" />} />
           <Route path="forget-password" element={<ForgetPassword />} />
-          <Route path="reset-password" element={<ResetPassword />}/>
+          <Route path="reset-password" element={token ? <ResetPassword /> : <Navigate to="/" />}/>
        </Routes>
     )
 }
