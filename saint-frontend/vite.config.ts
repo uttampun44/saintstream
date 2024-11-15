@@ -15,7 +15,7 @@ export default defineConfig({
       
     }
   },
-  // railway.app api
+ 
   resolve:{
     alias:{
       "@": path.resolve(__dirname, "./src"),
