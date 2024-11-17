@@ -3,7 +3,7 @@ import Button from "@/components/Button";
 import axios from "axios";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-
+import HeaderImage from "../../public/images/Logo.png"
 export default function Header() {
 
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ export default function Header() {
           )}
         >
           <div className={cn("logo gap-x-5 flex items-center ")}>
-            <img src="/public/images/Logo.png" className={cn("w-12 h-12 object-contain")} alt="logo"/>
+            <img src={HeaderImage} className={cn("w-12 h-12 object-contain")} alt="logo"/>
             <h1 className={cn("text-2xl text-white font-sans font-bold")}>
               SaintStream
             </h1>
