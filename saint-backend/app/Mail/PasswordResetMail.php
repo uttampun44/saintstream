@@ -41,7 +41,7 @@ class PasswordResetMail extends Mailable
      */
     public function content(): Content
     {
-        $resetLink = 'https://saintstream-eight.vercel.ap/reset-password?token=' . $this->token;
+        $resetLink = 'https://saintstream-eight.vercel.app/reset-password?token=' . $this->token;
 
         return new Content(
             view: 'emails', 
