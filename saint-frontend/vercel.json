@@ -1,8 +1,8 @@
 {
     "rewrites": [
         {
-          "source": "/api/*",
-          "destination": "https://saintstream-production.up.railway.app/api/*"
+          "source": "/api/(?!general)",
+          "destination": "https://saintstream-production.up.railway.app/api/(?!general)"
         }
       ]
 }
