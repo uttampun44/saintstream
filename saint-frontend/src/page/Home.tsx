@@ -36,18 +36,22 @@ export default function Home() {
 
   const token = localStorage.getItem("token");
 
+  console.log(token)
   useEffect(() => {
     if (token) {
       setAuthenticated(true)
     } else {
+      setAuthenticated(false)
       navigate("/")
     }
 
-  }, [isAuthenticated])
+  }, [navigate])
 
   return (
     <React.Fragment>
-      <Layout>
+     {
+       isAuthenticated && (
+        <Layout>
         {movies.splice(0, 1).map((movie: any, index: number) => (
           <section
             key={index}
@@ -132,6 +136,8 @@ export default function Home() {
         <ActionMovies />
         <ScienceFiction />
       </Layout>
+       )
+     }
     </React.Fragment>
   );
 }
