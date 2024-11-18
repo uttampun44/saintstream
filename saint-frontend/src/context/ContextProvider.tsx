@@ -110,20 +110,7 @@ export default function ContextProvider({ children }: ContextProviderProps) {
    const error =  genreError || movieError
   return (
     <Context.Provider
-      value={{
-        user,
-        token,
-        movie,
-        genre,
-      
-        loading,
-        error,
-        setToken,
-        setUser,
-        setMovie,
-        setGenre,
-       
-      }}
+      value={{user,token,movie,genre,loading,error,setToken,setUser,setMovie,setGenre,}}
     >
       {children}
     </Context.Provider>
