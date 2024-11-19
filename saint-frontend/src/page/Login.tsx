@@ -7,9 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "@/components/Button";
 import axios from "axios";
 import { toast } from "sonner";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Context } from "@/context/ContextProvider";
 import Overlay from "@/components/Overlay";
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 
 type inputs = {
@@ -18,17 +20,15 @@ type inputs = {
 };
 export default function Login() {
 
+  const [visibility, setVisibility] = useState<boolean>(false)
+
   const context = useContext(Context);
   const navigate = useNavigate();
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<inputs>({});
+  const {handleSubmit,register,formState: { errors },} = useForm<inputs>({});
 
-  const onSubmit: SubmitHandler<inputs> = async (data, event) => {
-    event?.preventDefault()
+  const onSubmit: SubmitHandler<inputs> = async (data) => {
+   
     try {
       const response = await axios.post("/api/login", data, {
         headers: {
@@ -51,6 +51,10 @@ export default function Login() {
       throw new error
     }
   };
+
+  const handleVisibility = () =>{
+     setVisibility((visibility) => !visibility)
+  }
 
   return (
     <section
@@ -96,16 +100,25 @@ export default function Login() {
                   {errors.email && <>This field is required</>}
                 </div>
               </div>
-              <div className={cn("password grid gap-y-2 mt-4")}>
+              <div className={cn("password grid gap-y-2 mt-4 relative")}>
               <label htmlFor="Password" className="text-white font-medium text-base">Password </label>
                 <InputType
-                  type="password"
+                  type={visibility ? "text" : "password"}
                   placeholder="Password"
                   className={cn("p-2 rounded-md bg-gray-800 text-white font-normal text-base")}
                   autocomplete="current-password"
                   {...register("password", { required: true })}
 
                 />
+
+                {
+                  visibility ? (
+
+                    <VisibilityOffIcon className={cn("absolute text-white right-1 top-10 cursor-pointer")} onClick={handleVisibility}/>
+                  ) :(
+                    <VisibilityIcon className={cn("absolute text-white right-1 top-10 cursor-pointer")} onClick={handleVisibility}/>
+                  )
+                }
 
                 <div className={cn("error text-red-700 font-medium text-base mt-1 min-h-6")}>
                   {errors.password && <>This field is required</>}

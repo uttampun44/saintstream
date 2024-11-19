@@ -21,9 +21,8 @@ export default function ResetPassword() {
 
   const { register, formState: { errors }, handleSubmit } = useForm<forgetInputs>();
 
-  const onSubmit: SubmitHandler<forgetInputs> = async (data, event) => {
-    event?.preventDefault()
-
+  const onSubmit: SubmitHandler<forgetInputs> = async (data) => {
+    
     if (!token) {
       toast.error("Token is missing.");
       return;

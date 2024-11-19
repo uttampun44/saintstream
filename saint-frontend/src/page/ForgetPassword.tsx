@@ -16,9 +16,8 @@ export default function ForgetPassword() {
 
   const { register, formState: { errors }, handleSubmit } = useForm<forgetInputs>();
 
-  const onSubmit: SubmitHandler<forgetInputs> = async (data, event) => {
+  const onSubmit: SubmitHandler<forgetInputs> = async (data) => {
 
-    event?.preventDefault()
 
     try {
       const response = await axios.post("/api/forget-password", data);
@@ -86,7 +85,7 @@ export default function ForgetPassword() {
                 <Button
                   type="submit"
                   value="Send"
-                  className={cn("bg-white w-full p-2 rounded-md text-slate-600 text-center  font-medium  text-xl")}
+                  className={cn("bg-green-700 w-full p-2 rounded-md text-white text-center  font-medium  text-xl")}
                   name="Send"
                 />
               </div>

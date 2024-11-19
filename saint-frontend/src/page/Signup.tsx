@@ -24,8 +24,8 @@ export default function Signup() {
 
   const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<inputs> = async (data, event) => {
-    event?.preventDefault()
+  const onSubmit: SubmitHandler<inputs> = async (data) => {
+   
     try {
       if (data.password !== data.password_confirmation) {
         toast.error("Password and Confirm password not matching")
