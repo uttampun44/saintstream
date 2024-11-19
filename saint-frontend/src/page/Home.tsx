@@ -95,12 +95,12 @@ export default function Home() {
           </section>
         ))}
 
-        <section className={cn("bg-black py-24")}>
+        <section className={cn("bg-black py-24 max-md:px-4")}>
           <div
             className={cn("cardContainerOne max-w-[1440px] text-white mx-auto")}
           >
             <h2 className={cn("text-3xl font-bold  my-4")}>Movie List</h2>
-            <Card className={cn("gridCardOne grid gap-8 grid-cols-5")}>
+            <Card className={cn("gridCardOne grid gap-8 grid-cols-5 max-sm:grid-cols-2")}>
               {movies.slice(0, 15).map((movieCard: any, index: number) => (
                 <div
                   className={cn("img relative z-50 cursor-pointer rounded-md")}

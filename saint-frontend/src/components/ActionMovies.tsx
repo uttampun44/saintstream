@@ -18,10 +18,10 @@ export default function ActionMovies() {
   );
 
   return (
-    <section className={cn("bg-black py-24")}>
-      <div className={cn("cardContainerOne max-w-[1440px] text-white mx-auto")}>
+    <section className={cn("bg-black py-24 max-md:px-4")}>
+      <div className={cn("cardContainerOne max-w-[1440px] text-white mx-auto ")}>
         <h2 className={cn("text-3xl font-bold my-4")}>Action Movies</h2>
-        <div className={cn("gridCardOne grid gap-8 grid-cols-5")}>
+        <div className={cn("gridCardOne grid gap-8 grid-cols-5 max-md:grid-cols-2")}>
           {comedyMovies.map((movie: any, index: number) => (
             <div
               className={cn("img relative z-50 cursor-pointer rounded-md")}

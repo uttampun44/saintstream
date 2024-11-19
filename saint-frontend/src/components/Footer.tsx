@@ -4,12 +4,12 @@ import { cn } from "../utils/cn";
 export default function Footer(){
     return(
         <footer className={cn("border-t-2 bg-black py-8 text-white")}>
-            <div className={cn("footerContainer max-w-[1440px] mx-auto")}>
-               <div className={cn("footerRow flex justify-between")}>
-                  <div className={cn("footerTitle w-1/2")}>
-                  <p className={cn("font-bold text-4xl")}>Our Platform is trusted by million & features best updated movies all around the world.</p>    
+            <div className={cn("footerContainer max-w-[1440px] mx-auto max-md:px-4")}>
+               <div className={cn("footerRow flex justify-between max-md:flex-wrap max-md:items-center text-center max-md:gap-y-4")}>
+                  <div className={cn("footerTitle w-1/2 max-md:w-auto")}>
+                  <p className={cn("font-bold text-4xl max-md:text-xl")}>Our Platform is trusted by million & features best updated movies all around the world.</p>    
                   </div>
-               <div className={cn("linkRow text-xl font-medium w-1/2")}>
+               <div className={cn("linkRow text-xl font-medium w-1/2 max-md:w-auto")}>
                   <ul className={cn("flex gap-x-4 justify-end")}>
                     <li><Link to="/home" aria-label="home">Home</Link></li> 
                     <li><Link to="/home" aria-label="discover">Discover</Link></li> 
