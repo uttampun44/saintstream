@@ -17,6 +17,7 @@ export default function Header() {
       if (response.status === 200) {
         localStorage.removeItem("token");
         toast.success("Successfully Logout");
+        location.reload()
         navigate("/");
       }
     } catch (error) {

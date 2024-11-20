@@ -7,24 +7,36 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "@/components/Button";
 import axios from "axios";
 import { toast } from "sonner";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Context } from "@/context/ContextProvider";
 import Overlay from "@/components/Overlay";
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
 
 type inputs = {
   email: string;
   password: string;
 };
 export default function Login() {
-
   const [visibility, setVisibility] = useState<boolean>(false)
+const [isAuthenticated, setIsAuthenticated] = useState("checking");
 
-  const context = useContext(Context);
+const context = useContext(Context)
+  
   const navigate = useNavigate();
-
+ 
   const {handleSubmit,register,formState: { errors },} = useForm<inputs>({});
+
+  useEffect(() => {
+    const hasToken = !!context?.token;
+
+    if(hasToken)
+       navigate("/home")
+
+    setIsAuthenticated("checked")
+
+  },[context?.token])
 
   const onSubmit: SubmitHandler<inputs> = async (data) => {
    
@@ -54,7 +66,11 @@ export default function Login() {
   const handleVisibility = () =>{
      setVisibility((visibility) => !visibility)
   }
+ 
+  if(isAuthenticated === "checking")
+    return "Checking auth status...";
 
+if(isAuthenticated === "checked")
   return (
     <section
       className={cn("login_section")}

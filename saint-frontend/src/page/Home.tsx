@@ -36,7 +36,6 @@ export default function Home() {
 
   const token = localStorage.getItem("token");
 
-  console.log(token)
   useEffect(() => {
     if (token) {
       setAuthenticated(true)
